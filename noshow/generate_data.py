@@ -40,7 +40,7 @@ def generate(n_appointments=6000, n_patients=2200, seed=SEED, start="2024-01-01"
     booked = pd.Timestamp(start) + pd.to_timedelta(rng.integers(0, days, n_appointments), unit="D")
     lead = np.clip(rng.gamma(2.0, 7.0, n_appointments).round().astype(int), 0, 90)
     appt = booked + pd.to_timedelta(lead, unit="D")
-    wd = appt.dayofweek.values
+    wd = appt.day_of_week.values
     appt = appt + pd.to_timedelta(np.where(wd == 5, 2, np.where(wd == 6, 1, 0)), unit="D")
     lead = (appt - booked).days.values
 
@@ -61,7 +61,7 @@ def generate(n_appointments=6000, n_patients=2200, seed=SEED, start="2024-01-01"
     })
 
     # True no-show probability (the hidden "rules" a model should learn)
-    wd = df["appointment_date"].dt.dayofweek.values
+    wd = df["appointment_date"].dt.day_of_week.values
     h = df["appt_hour"].values
     logit = (-1.55 + 0.022 * np.minimum(lead, 60)
              + df["age_band"].map(AGE_EFF).values

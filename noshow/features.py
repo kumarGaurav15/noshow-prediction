@@ -29,7 +29,7 @@ def add_features(df):
     out["booked_date"] = pd.to_datetime(out["booked_date"])
     out["appointment_date"] = pd.to_datetime(out["appointment_date"])
     out["lead_time_days"] = (out["appointment_date"] - out["booked_date"]).dt.days
-    out["appt_weekday"] = out["appointment_date"].dt.dayofweek
+    out["appt_weekday"] = out["appointment_date"].dt.day_of_week
     out["appt_month"] = out["appointment_date"].dt.month
     out["prior_no_show_rate"] = ((out["prior_no_shows"] + SMOOTH_A * SMOOTH_PRIOR)
                                  / (out["prior_appointments"] + SMOOTH_A))
